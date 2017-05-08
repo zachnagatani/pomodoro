@@ -4,6 +4,8 @@ import SettingEditor from './components/SettingEditor';
 import ResetLink from './components/ResetLink';
 import Tomato from './components/Tomato';
 
+
+
 // Container to group the components together
 class App extends Component {
 	constructor(props) {
