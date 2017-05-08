@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './App.css';
 import SettingEditor from './components/SettingEditor';
 import ResetLink from './components/ResetLink';
 import Tomato from './components/Tomato';
-
-
 
 // Container to group the components together
 class App extends Component {
@@ -12,13 +11,14 @@ class App extends Component {
 		super(props);
 
 		this.state = {
-			mins: 1,
+			mins: props.workTime,
 			secs: 0,
-			timer: '1:00',
+			timer: props.workTime,
 			status: 'Work'
 		};
 
 		this.beginCountdown = this.beginCountdown.bind(this);
+		this.adjustTimer = this.adjustTimer.bind(this);
 	}
 
 	/**
@@ -57,12 +57,33 @@ class App extends Component {
 		}, 100);
 	}
 
+	/**
+	 * Adjusts the view of the timer
+	 * @param {String} action - String denoting which action to take
+	 */
+	adjustTimer(action) {
+		switch(action) {
+			case 'INCREMENT':
+				this.setState({
+					mins: this.state.mins + 1,
+					timer: this.state.timer + 1
+				});
+				break;
+			case 'DECREMENT':
+				this.setState({
+					mins: this.state.mins - 1,
+					timer: this.state.timer - 1
+				});
+				break;
+		}
+	}
+
 	render() {
 		return (
 			<div className="app text-center">
 				<div className="settings-container">
 					<SettingEditor text="Break Length" length="5" />
-					<SettingEditor text="Session Length" length={this.state.mins} />
+					<SettingEditor text="Session Length" length={this.state.mins} adjustTimer={this.adjustTimer} />
 				</div>
 				<Tomato beginCountdown={this.beginCountdown} state={this.state} />
 				<ResetLink />
@@ -71,4 +92,10 @@ class App extends Component {
 	}
 }
 
-export default App;
+const mapStateToProps = state => {
+	return {
+		workTime: state.workTime
+	};
+};
+
+export default connect(mapStateToProps)(App);
