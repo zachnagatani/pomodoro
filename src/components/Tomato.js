@@ -14,7 +14,7 @@ const Tomato = props => {
 				<div className="leaf"  id="leaf3">
 				</div>
 			</div>
-			<h2>{props.state.status}</h2>
+			<h2>{props.status}</h2>
 			<Timer timer={props.state.timer} />
 			<GoButton beginCountdown={props.beginCountdown} />
 		</div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { toggleStatus } from './actions/actions';
 import './App.css';
 import SettingEditor from './components/SettingEditor';
 import ResetLink from './components/ResetLink';
@@ -14,7 +15,6 @@ class App extends Component {
 			mins: props.workTime,
 			secs: 0,
 			timer: props.workTime,
-			status: 'Work'
 		};
 
 		this.beginCountdown = this.beginCountdown.bind(this);
@@ -27,19 +27,23 @@ class App extends Component {
 	beginCountdown() {
 		// Store the interval in an id so we can clear it later
 		var id = setInterval(() => {
-			// Correctly format the timer display based on a few cases
+			// Handle formatting of timer
+			// If we have more than 0 seconds...
 			if (this.state.secs > 0) {
+				// and less than 10 seconds, add the zero to the timer
 				if (this.state.secs < 10) {
 					this.setState({
 						secs: this.state.secs - 1,
 						timer: this.state.mins + ':0' + this.state.secs
 					});
+				// Otherwise just let the timer display the double-digit seconds
 				} else {
 						this.setState({
 							secs: this.state.secs - 1,
 							timer: this.state.mins + ':' + this.state.secs
 						});
 				}
+			// If there are noe seconds, update the minutes accordingly
 		} else if (this.state.secs === 0) {
 				this.setState({
 					mins: this.state.mins - 1,
@@ -48,11 +52,24 @@ class App extends Component {
 				});
 		}
 
-		if (this.state.timer === '0:00') {
-			this.setState({
-				status: 'Rest'
-			});
+		// When the timer runs out, stop our interval function,
+		// change the status from work to rest/rest to work,
+		// and set the minutes and timer appropriately
+		if (this.state.mins === 0 && this.state.secs === 0) {
 			clearInterval(id);
+			this.props.dispatch(toggleStatus());
+
+			if (this.props.status === 'Work') {
+				this.setState({
+					mins: this.props.workTime,
+					timer: this.props.workTime
+				});
+			} else {
+				this.setState({
+					mins: this.props.restTime,
+					timer: this.props.restTime
+				});
+			}
 		}
 		}, 100);
 	}
@@ -85,7 +102,7 @@ class App extends Component {
 					<SettingEditor text="Break Length" length="5" />
 					<SettingEditor text="Session Length" length={this.state.mins} adjustTimer={this.adjustTimer} />
 				</div>
-				<Tomato beginCountdown={this.beginCountdown} state={this.state} />
+				<Tomato beginCountdown={this.beginCountdown} status={this.props.status} state={this.state} />
 				<ResetLink />
 			</div>
 		);
@@ -94,7 +111,9 @@ class App extends Component {
 
 const mapStateToProps = state => {
 	return {
-		workTime: state.workTime
+		status: state.status,
+		workTime: state.times.workTime,
+		restTime: state.times.restTime
 	};
 };
 

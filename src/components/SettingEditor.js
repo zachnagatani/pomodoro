@@ -30,8 +30,8 @@ let SettingEditor = (props) => {
 // Make sure I have the state properties I need access to
 const mapStateToProps = state => {
 	return {
-		workTime: state.workTime,
-		restTime: state.restTime
+		workTime: state.times.workTime,
+		restTime: state.times.restTime
 	}
 };
 
