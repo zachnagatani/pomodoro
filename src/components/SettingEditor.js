@@ -5,6 +5,14 @@ import {
 	incrementRestTime, decrementRestTime
 } from '../actions/actions';
 
+// Make sure I have the state properties I need access to
+const mapStateToProps = (state) => {
+	return {
+		workTime: state.workTime,
+		restTime: state.restTime
+	}
+};
+
 // Component that allows for adjustments in break/work times
 // onClick functions dispatch the proper decrement/increment actions based on
 // the components props
@@ -17,7 +25,7 @@ let SettingEditor = (props) => {
 			<button onClick={() => {
 				props.text === 'Break Length' ? props.dispatch(decrementRestTime()) : props.dispatch(decrementWorkTime());
 			}}>-</button>
-			<span>{props.length}</span>
+			<span>{props.text === 'Break Length' ? props.restTime : props.workTime}</span>
 			<button onClick={() => {
 				props.text === 'Break Length' ? props.dispatch(incrementRestTime()) : props.dispatch(incrementWorkTime());
 			}}>+</button>
@@ -25,6 +33,6 @@ let SettingEditor = (props) => {
 	);
 };
 
-SettingEditor = connect()(SettingEditor);
+SettingEditor = connect(mapStateToProps)(SettingEditor);
 
 export default SettingEditor;
