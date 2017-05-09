@@ -20,11 +20,6 @@ class App extends Component {
 
 		this.beginCountdown = this.beginCountdown.bind(this);
 		this.adjustTimer = this.adjustTimer.bind(this);
-		this.interval = this.interval.bind(this);
-	}
-
-	interval() {
-
 	}
 
 	/**
@@ -82,56 +77,6 @@ class App extends Component {
 				new Audio('http://www.sjap.nl/Fire-alarm.mp3').play();
 			}
 		}
-
-		// Store the interval in an id so we can clear it later
-		// var id = setInterval(() => {
-		// 	// Handle formatting of timer
-		// 	// If we have more than 0 seconds...
-		// 	if (this.state.secs > 0) {
-		// 		// and less than 10 seconds, add the zero to the timer
-		// 		if (this.state.secs < 10) {
-		// 			this.setState({
-		// 				secs: this.state.secs - 1,
-		// 				timer: this.state.mins + ':0' + this.state.secs
-		// 			});
-		// 		// Otherwise just let the timer display the double-digit seconds
-		// 		} else {
-		// 				this.setState({
-		// 					secs: this.state.secs - 1,
-		// 					timer: this.state.mins + ':' + this.state.secs
-		// 				});
-		// 		}
-		// 	// If there are noe seconds, update the minutes accordingly
-		// } else if (this.state.secs === 0) {
-		// 		this.setState({
-		// 			mins: this.state.mins - 1,
-		// 			secs: 59,
-		// 			timer: this.state.mins + ':00'
-		// 		});
-		// }
-
-		// // When the timer runs out, stop our interval function,
-		// // change the status from work to rest/rest to work,
-		// // and set the minutes and timer appropriately
-		// if (this.state.mins === 0 && this.state.secs === 0) {
-		// 	clearInterval(id);
-		// 	this.props.dispatch(toggleStatus());
-
-		// 	if (this.props.status === 'Work') {
-		// 		this.setState({
-		// 			mins: this.props.workTime,
-		// 			timer: this.props.workTime
-		// 		});
-		// 	} else {
-		// 		this.setState({
-		// 			mins: this.props.restTime,
-		// 			timer: this.props.restTime
-		// 		});
-		// 	}
-
-		// 	new Audio('http://www.sjap.nl/Fire-alarm.mp3').play();
-		// }
-		// }, 100);
 	}
 
 	/**
