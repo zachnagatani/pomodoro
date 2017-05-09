@@ -4,7 +4,7 @@ import React from 'react';
 const ResetLink = props => {
 	return (
 		<div className="text-center">
-			<a href="#">Reset Timer</a>
+			<a href="#" onClick={(e) => props.resetCountdown(e)}>Reset Timer</a>
 		</div>
 	);
 };

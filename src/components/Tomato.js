@@ -5,7 +5,7 @@ import GoButton from './GoButton';
 // The awesome tomato component that holds the timer and go button
 const Tomato = props => {
 	return (
-		<div id="tomato" className="tomato animated bounceInDown">
+		<div id="tomato" className="tomato animated bounceInDown" onClick={() => props.pauseCountdown()}>
 			<div id="stem">
 				<div className="leaf" id="leaf1">
 				</div>

@@ -20,12 +20,15 @@ class App extends Component {
 
 		this.beginCountdown = this.beginCountdown.bind(this);
 		this.adjustTimer = this.adjustTimer.bind(this);
+		this.pauseCountdown = this.pauseCountdown.bind(this);
+		this.resetCountdown = this.resetCountdown.bind(this);
 	}
 
 	/**
 	* Begins the timer countdown.
 	*/
 	beginCountdown() {
+		console.log(this.state);
 		this.setState({
 			intervalID: setInterval(callback.bind(this), 100)
 		});
@@ -80,6 +83,42 @@ class App extends Component {
 	}
 
 	/**
+	 * Pauses the countdown by clearing the interval
+	*/
+	pauseCountdown() {
+		clearInterval(this.state.intervalID);
+	}
+
+	/**
+	 * Stops the countdown and resets the timer
+	 */
+	resetCountdown(e) {
+		// Prevent the default anchor behavior
+		e.preventDefault();
+
+		// Stop the countdown
+		this.pauseCountdown();
+
+		// Reset according to the timer status
+		switch(this.props.status) {
+			case 'Work':
+				this.setState({
+					mins: this.props.workTime,
+					secs: 0,
+					timer: this.props.workTime
+				});
+				break;
+			case 'Rest':
+				this.setState({
+					mins: this.props.restTime,
+					secs: 0,
+					timer: this.props.restTime
+				});
+				break;
+		}
+	}
+
+	/**
 	 * Adjusts the view of the timer
 	 * @param {String} status - the status to edit according to
 	 * @param {String} action - String denoting which action to take
@@ -110,8 +149,8 @@ class App extends Component {
 					<SettingEditor text="Break Length" length="5" adjustTimer={this.adjustTimer} />
 					<SettingEditor text="Session Length" length={this.state.mins} adjustTimer={this.adjustTimer} />
 				</div>
-				<Tomato beginCountdown={this.beginCountdown} status={this.props.status} state={this.state} />
-				<ResetLink />
+				<Tomato beginCountdown={this.beginCountdown} status={this.props.status} state={this.state} pauseCountdown={this.pauseCountdown} />
+				<ResetLink resetCountdown={this.resetCountdown} />
 			</div>
 		);
 	}
