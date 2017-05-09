@@ -9,8 +9,8 @@ import {
 // Set the initial state of the app
 const initialState = {
     status: 'Work',
-    workTime: 1,
-    restTime: 1
+    workTime: 25,
+    restTime: 5
 };
 
 // Reducer to handle the actions and produce the new state that we need
@@ -25,7 +25,8 @@ function pomodoroApp(state = initialState, action) {
             break;
         case DECREMENT_WORK_TIME:
             return Object.assign({}, state, {
-                workTime: state.workTime - 1
+                // Enforce a minimum of 1
+                workTime: state.workTime > 1 ? state.workTime - 1 : 1
             });
             break;
         case INCREMENT_REST_TIME:
@@ -35,7 +36,8 @@ function pomodoroApp(state = initialState, action) {
             break;
         case DECREMENT_REST_TIME:
             return Object.assign({}, state, {
-                restTime: state.restTime - 1
+                // Enforce a minimum of 1
+                restTime: state.restTime > 1 ? state.restTime - 1 : 1
             });
             break;
         case TOGGLE_STATUS:

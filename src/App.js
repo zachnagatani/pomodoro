@@ -28,10 +28,11 @@ class App extends Component {
 	* Begins the timer countdown.
 	*/
 	beginCountdown() {
-		console.log(this.state);
+		// Store the intervalID in our state so we can access it in other functions to clear it
 		this.setState({
-			intervalID: setInterval(callback.bind(this), 100)
+			intervalID: setInterval(callback.bind(this), 1000)
 		});
+
 		function callback() {
 			// Handle formatting of timer
 			// If we have more than 0 seconds...

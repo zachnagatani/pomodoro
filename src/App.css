@@ -83,3 +83,8 @@ h1 {
 	width: 30px;
 	margin: 10px;
 }
+
+.reset-link {
+	position: relative;
+	top: 20px;
+}
