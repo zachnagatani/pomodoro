@@ -39,6 +39,7 @@ html, body, .root {
   border-radius: 50%;
   background: #DD0E17;
 	color: #fff;
+	cursor: pointer;
 }
 
 #stem {

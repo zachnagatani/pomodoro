@@ -15,6 +15,7 @@ class App extends Component {
 			mins: props.workTime,
 			secs: 0,
 			timer: props.workTime,
+			running: false,
 			intervalID: null
 		};
 
@@ -30,6 +31,7 @@ class App extends Component {
 	beginCountdown() {
 		// Store the intervalID in our state so we can access it in other functions to clear it
 		this.setState({
+			running: true,
 			intervalID: setInterval(callback.bind(this), 1000)
 		});
 
@@ -69,12 +71,14 @@ class App extends Component {
 				if (this.props.status === 'Work') {
 					this.setState({
 						mins: this.props.workTime,
-						timer: this.props.workTime
+						timer: this.props.workTime,
+						running: false
 					});
 				} else {
 					this.setState({
 						mins: this.props.restTime,
-						timer: this.props.restTime
+						timer: this.props.restTime,
+						running: false
 					});
 				}
 
@@ -106,14 +110,16 @@ class App extends Component {
 				this.setState({
 					mins: this.props.workTime,
 					secs: 0,
-					timer: this.props.workTime
+					timer: this.props.workTime,
+					running: false
 				});
 				break;
 			case 'Rest':
 				this.setState({
 					mins: this.props.restTime,
 					secs: 0,
-					timer: this.props.restTime
+					timer: this.props.restTime,
+					running: false
 				});
 				break;
 		}
@@ -125,7 +131,7 @@ class App extends Component {
 	 * @param {String} action - String denoting which action to take
 	 */
 	adjustTimer(status, action) {
-		if (status === this.props.status) {
+		if (status === this.props.status && !this.state.running) {
 			switch(action) {
 				case 'INCREMENT':
 					this.setState({
