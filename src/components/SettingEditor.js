@@ -16,12 +16,12 @@ let SettingEditor = (props) => {
 			</p>
 			<button onClick={() => {
 				props.text === 'Break Length' ? props.dispatch(decrementRestTime()) : props.dispatch(decrementWorkTime());
-				props.adjustTimer('DECREMENT');
+				props.text === 'Break Length' ? props.adjustTimer('Rest', 'DECREMENT') : props.adjustTimer('Work', 'DECREMENT');
 			}}>-</button>
 			<span>{props.text === 'Break Length' ? props.restTime : props.workTime}</span>
 			<button onClick={() => {
 				props.text === 'Break Length' ? props.dispatch(incrementRestTime()) : props.dispatch(incrementWorkTime());
-				props.adjustTimer('INCREMENT');
+				props.text === 'Break Length' ? props.adjustTimer('Rest', 'INCREMENT') : props.adjustTimer('Work', 'INCREMENT');
 			}}>+</button>
 		</div>
 	);
@@ -30,8 +30,9 @@ let SettingEditor = (props) => {
 // Make sure I have the state properties I need access to
 const mapStateToProps = state => {
 	return {
-		workTime: state.times.workTime,
-		restTime: state.times.restTime
+		status: state.status,
+		workTime: state.workTime,
+		restTime: state.restTime
 	}
 };
 

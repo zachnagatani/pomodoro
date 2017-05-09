@@ -9,10 +9,8 @@ import {
 // Set the initial state of the app
 const initialState = {
     status: 'Work',
-    times: {
-        workTime: 1,
-        restTime: 1
-    }
+    workTime: 1,
+    restTime: 1
 };
 
 // Reducer to handle the actions and produce the new state that we need

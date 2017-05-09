@@ -70,28 +70,33 @@ class App extends Component {
 					timer: this.props.restTime
 				});
 			}
+
+			new Audio('http://www.sjap.nl/Fire-alarm.mp3').play();
 		}
 		}, 100);
 	}
 
 	/**
 	 * Adjusts the view of the timer
+	 * @param {String} status - the status to edit according to
 	 * @param {String} action - String denoting which action to take
 	 */
-	adjustTimer(action) {
-		switch(action) {
-			case 'INCREMENT':
-				this.setState({
-					mins: this.state.mins + 1,
-					timer: this.state.timer + 1
-				});
-				break;
-			case 'DECREMENT':
-				this.setState({
-					mins: this.state.mins - 1,
-					timer: this.state.timer - 1
-				});
-				break;
+	adjustTimer(status, action) {
+		if (status === this.props.status) {
+			switch(action) {
+				case 'INCREMENT':
+					this.setState({
+						mins: this.state.mins + 1,
+						timer: this.state.timer + 1
+					});
+					break;
+				case 'DECREMENT':
+					this.setState({
+						mins: this.state.mins - 1,
+						timer: this.state.timer - 1
+					});
+					break;
+			}
 		}
 	}
 
@@ -99,7 +104,7 @@ class App extends Component {
 		return (
 			<div className="app text-center">
 				<div className="settings-container">
-					<SettingEditor text="Break Length" length="5" />
+					<SettingEditor text="Break Length" length="5" adjustTimer={this.adjustTimer} />
 					<SettingEditor text="Session Length" length={this.state.mins} adjustTimer={this.adjustTimer} />
 				</div>
 				<Tomato beginCountdown={this.beginCountdown} status={this.props.status} state={this.state} />
@@ -112,8 +117,8 @@ class App extends Component {
 const mapStateToProps = state => {
 	return {
 		status: state.status,
-		workTime: state.times.workTime,
-		restTime: state.times.restTime
+		workTime: state.workTime,
+		restTime: state.restTime
 	};
 };
 
